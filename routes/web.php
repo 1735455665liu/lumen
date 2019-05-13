@@ -18,3 +18,5 @@ $router->post('/getdncrypt','Test\TestController@getdncrypt');      //对称签�
 $router->post('/getnocrypt','Test\TestController@getnocrypt');      //非对称加密
 $router->post('/sign','Test\TestController@sign');      //非对称加密签名
 $router->post('/regdo','Test\TestController@regdo');      //注册
+$router->post('/logindo','Test\TestController@logindo');      //登录
+$router->get('/getToken','Test\TestController@getToken');      //token

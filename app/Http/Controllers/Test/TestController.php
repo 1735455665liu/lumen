@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Test;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Model\username;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 class TestController extends BaseController{
     //对称加密
     public function getdncrypt(){
@@ -60,22 +62,65 @@ class TestController extends BaseController{
             'pass'=>$arr->pass,
             'email'=>$arr->email
         ];
-//        echo '<pre>';print_r($data);echo '<pre>';
             $id=username::insertGetId($data);
             if($id){
                 $response=[
                   'error'=>0,
                   'msg'=>'添加成功'
                 ];
-           var_dump($response);
+                die(json_encode($response,true));
             }else{
                 $response=[
                     'error'=>40001,
                     'msg'=>'添加失败'
                 ];
-                var_dump($response);
+                die(json_encode($response,true));
             }
 
 
+    }
+    //登录
+    public function logindo(){
+        $file=file_get_contents('php://input');
+        $val=base64_decode($file);
+        $private=openssl_get_publickey('file://'.storage_path('openssl/public.pem'));
+        openssl_public_decrypt($val,$content,$private);
+        $json=json_decode($content);
+        $email=username::where(['email'=>$json->email])->first();
+        if($email){ //用户存在
+            //验证密码
+            if($json->pass==$email->pass){
+                //把token存入缓存
+                $key='user_token';
+               $token=$this->getToken($email['id']);
+                Redis::set($key,$token);    //存入缓存中
+                Redis::expire($key,604800); //设置过期时间
+                $response=[
+                  'error'=>0,
+                  'msg'=>'登录成功',
+                    'data'=>[
+                        'token'=>$token
+                    ],
+                ];
+                die(json_encode($response,true));
+            }else{
+                $response=[
+                  'error'=>40005,
+                  'msg'=>'密码有误，请重新填写'
+                ];
+                die(json_encode($response,true));
+            }
+        }else{      //用户不存在
+        $response=[
+            'error'=>40003,
+            'msg'=>'用户不存在'
+            ];
+               die(json_encode($response,true));
+        }
+
+    }
+    //设置token
+    public function getToken($id){
+        return sha1($id.rand(1111,9999).Str::random(10));
     }
 }
