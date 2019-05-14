@@ -130,7 +130,7 @@ class TestController extends BaseController{
     }
     //APP注册
     public function appreg(){
-        header('Access-Control-Allow-Origin','*');
+        header('Access-Control-Allow-Origin:*');
         $name=$_POST['name'];
         $pass=$_POST['pass'];
         $email=$_POST['email'];
@@ -156,7 +156,7 @@ class TestController extends BaseController{
     }
     //APP登录
     public function applogin(){
-        header('Access-Control-Allow-Origin','*');
+        header('Access-Control-Allow-Origin:*');
         $name=$_POST['name'];
         $pass=$_POST['pass'];
         $email=$_POST['email'];
