@@ -145,13 +145,13 @@ class TestController extends BaseController{
                 'error'=>0,
                 'msg'=>'添加成功'
             ];
-           return json_encode($response,true);
+           return json_encode($response,JSON_UNESCAPED_UNICODE);
         }else{
             $response=[
                 'error'=>40001,
                 'msg'=>'添加失败'
             ];
-            return json_encode($response,true);
+            return json_encode($response,JSON_UNESCAPED_UNICODE);
         }
     }
     //APP登录
@@ -176,20 +176,20 @@ class TestController extends BaseController{
                         'token'=>$token
                     ],
                 ];
-                die(json_encode($response,true));
+                die(json_encode($response,JSON_UNESCAPED_UNICODE));
             }else{
                 $response=[
                     'error'=>40005,
                     'msg'=>'密码有误，请重新填写'
                 ];
-                die(json_encode($response,true));
+                die(json_encode($response,JSON_UNESCAPED_UNICODE));
             }
         }else{      //用户不存在
             $response=[
                 'error'=>40003,
                 'msg'=>'用户不存在'
             ];
-            die(json_encode($response,true));
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
 
 
