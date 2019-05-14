@@ -128,4 +128,11 @@ class TestController extends BaseController{
         header('Access-Control-Allow-Origin','http://client.1809a.com');
        echo time();
     }
+
+
+
+    //APP注册
+    public function appreg(){
+        header('Access-Control-Allow-Origin','*');
+    }
 }
