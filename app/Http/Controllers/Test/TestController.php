@@ -123,4 +123,9 @@ class TestController extends BaseController{
     public function getToken($id){
         return sha1($id.rand(1111,9999).Str::random(10));
     }
+
+    public function ajax(){
+        header('Access-Control-Allow-Origin','http://client.1809a.com');
+       echo time();
+    }
 }

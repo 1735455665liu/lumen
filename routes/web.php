@@ -20,3 +20,4 @@ $router->post('/sign','Test\TestController@sign');      //非对称加密签名
 $router->post('/regdo','Test\TestController@regdo');      //注册
 $router->post('/logindo','Test\TestController@logindo');      //登录
 $router->get('/getToken','Test\TestController@getToken');      //token
+$router->get('/ajax','Test\TestController@ajax');      //ajax
