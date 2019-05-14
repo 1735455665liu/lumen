@@ -131,29 +131,27 @@ class TestController extends BaseController{
     //APP注册
     public function appreg(){
         header('Access-Control-Allow-Origin','*');
-            $post=$_POST;
-        $file=file_get_contents('php://input');
-        var_dump($post);die;
-//        $data=[
-//            'name'=>$file['name'],
-//            'pass'=>$file['pass'],
-//            'email'=>$file['email']
-//        ];
-//        var_dump($data);
-//        $id=username::insertGetId($data);
-//        if($id){
-//            $response=[
-//                'error'=>0,
-//                'msg'=>'添加成功'
-//            ];
-//            die(json_encode($response,true));
-//        }else{
-//            $response=[
-//                'error'=>40001,
-//                'msg'=>'添加失败'
-//            ];
-//            die(json_encode($response,true));
-//        }
-        echo 'ok';
+        $name=$_POST['name'];
+        $pass=$_POST['pass'];
+        $email=$_POST['email'];
+        $data=[
+            'name'=>$name,
+            'pass'=>$pass,
+            'email'=>$email
+        ];
+        $id=username::insertGetId($data);
+        if($id){
+            $response=[
+                'error'=>0,
+                'msg'=>'添加成功'
+            ];
+            die(json_encode($response,true));
+        }else{
+            $response=[
+                'error'=>40001,
+                'msg'=>'添加失败'
+            ];
+            die(json_encode($response,true));
+        }
     }
 }
