@@ -128,12 +128,28 @@ class TestController extends BaseController{
         header('Access-Control-Allow-Origin','http://client.1809a.com');
        echo time();
     }
-
-
-
     //APP注册
     public function appreg(){
         header('Access-Control-Allow-Origin','*');
-        echo time();
+        $file=file_get_contents('php://input');
+        $data=[
+            'name'=>$file['name'],
+            'pass'=>$file['pass'],
+            'email'=>$file['email']
+        ];
+        $id=username::insertGetId($data);
+        if($id){
+            $response=[
+                'error'=>0,
+                'msg'=>'添加成功'
+            ];
+            die(json_encode($response,true));
+        }else{
+            $response=[
+                'error'=>40001,
+                'msg'=>'添加失败'
+            ];
+            die(json_encode($response,true));
+        }
     }
 }
