@@ -165,16 +165,31 @@ class TestController extends BaseController{
             //验证密码
             if($pass==$email->pass){
                 //把token存入缓存
-                $key='app_token';
+                $key='user_token';
                 $token=$this->getToken($email['id']);
                 Redis::set($key,$token);    //存入缓存中
                 Redis::expire($key,604800); //设置过期时间
-                return '登录成功';
+                $response=[
+                    'error'=>0,
+                    'msg'=>'登录成功',
+                    'data'=>[
+                        'token'=>$token
+                    ],
+                ];
+                die(json_encode($response,true));
             }else{
-                return '密码有误';
+                $response=[
+                    'error'=>40005,
+                    'msg'=>'密码有误，请重新填写'
+                ];
+                die(json_encode($response,true));
             }
         }else{      //用户不存在
-            return '用户不存在';
+            $response=[
+                'error'=>40003,
+                'msg'=>'用户不存在'
+            ];
+            die(json_encode($response,true));
         }
 
 
