@@ -145,13 +145,13 @@ class TestController extends BaseController{
                 'error'=>0,
                 'msg'=>'添加成功'
             ];
-            die(json_encode($response,true));
+           return json_encode($response,true);
         }else{
             $response=[
                 'error'=>40001,
                 'msg'=>'添加失败'
             ];
-            die(json_encode($response,true));
+            return json_encode($response,true);
         }
     }
     //APP登录
@@ -165,7 +165,7 @@ class TestController extends BaseController{
             //验证密码
             if($pass==$email->pass){
                 //把token存入缓存
-                $key='user_token';
+                $key='app_token';
                 $token=$this->getToken($email['id']);
                 Redis::set($key,$token);    //存入缓存中
                 Redis::expire($key,604800); //设置过期时间
