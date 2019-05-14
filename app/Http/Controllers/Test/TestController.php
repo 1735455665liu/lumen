@@ -195,4 +195,11 @@ class TestController extends BaseController{
 
 
     }
+    //APPtoken
+    public function apptoken(){
+        $token=$_GET['token'];
+        var_dump($token);
+
+    }
+
 }
