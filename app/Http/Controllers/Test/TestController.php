@@ -131,9 +131,9 @@ class TestController extends BaseController{
     //APP注册
     public function appreg(){
         header('Access-Control-Allow-Origin','*');
-        return 'ok';
+            $post=$_POST;
         $file=file_get_contents('php://input');
-        var_dump($file);die;
+        var_dump($post);die;
 //        $data=[
 //            'name'=>$file['name'],
 //            'pass'=>$file['pass'],
