@@ -197,8 +197,23 @@ class TestController extends BaseController{
     }
     //APPtoken
     public function apptoken(){
-        $token=$_GET['token'];
-        var_dump($token);
+        header('Access-Control-Allow-Origin:*');
+        $token=$_POST['token'];
+        $uid=$_POST['uid'];
+        $key='app_token';
+        $redis=Redis::get($key);
+        var_dump($redis);die;
+        if($redis==$token){
+            $userInfo=username::where(['uid'=>$uid])->first();
+            var_dump($userInfo);
+
+
+        }else{
+            $response=[
+              'error'=>40009,
+              'msg'=>'请先登录'
+            ];
+        }
 
     }
 
