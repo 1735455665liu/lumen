@@ -22,3 +22,4 @@ $router->post('/logindo','Test\TestController@logindo');      //登录
 $router->get('/getToken','Test\TestController@getToken');      //token
 $router->get('/ajax','Test\TestController@ajax');      //ajax
 $router->post('/appreg','Test\TestController@appreg');      //ajax
+$router->post('/applogin','Test\TestController@applogin');      //applogin

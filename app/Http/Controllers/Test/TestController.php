@@ -154,4 +154,29 @@ class TestController extends BaseController{
             die(json_encode($response,true));
         }
     }
+    //APP登录
+    public function applogin(){
+        header('Access-Control-Allow-Origin','*');
+        $name=$_POST['name'];
+        $pass=$_POST['pass'];
+        $email=$_POST['email'];
+        $email=username::where(['email'=>$email])->first();
+        if($email){ //用户存在
+            //验证密码
+            if($pass==$email->pass){
+                //把token存入缓存
+                $key='app_token';
+                $token=$this->getToken($email['id']);
+                Redis::set($key,$token);    //存入缓存中
+                Redis::expire($key,604800); //设置过期时间
+                return '登录成功';
+            }else{
+                return '密码有误';
+            }
+        }else{      //用户不存在
+            return '用户不存在';
+        }
+
+
+    }
 }
