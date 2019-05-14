@@ -167,7 +167,8 @@ class TestController extends BaseController{
                 //把token存入缓存
                 $key='app_token';
                 $token=$this->getToken($email['id']);
-                Redis::set($key,$token);    //存入缓存中
+                $aa=Redis::set($key,$token);    //存入缓存中
+                var_dump($aa);
                 Redis::expire($key,604800); //设置过期时间
                 $response=[
                     'error'=>0,
@@ -202,12 +203,14 @@ class TestController extends BaseController{
         $uid=$_POST['uid'];
         $key='app_token';
         $redis=Redis::get($key);
-        var_dump($redis);die;
         if($redis==$token){
-            $userInfo=username::where(['uid'=>$uid])->first();
-            var_dump($userInfo);
-
-
+            $userInfo=username::where(['id'=>$uid])->first();
+           $response=[
+             'name'=>$userInfo['name'],
+             'email'=>$userInfo['email'],
+             'pass'=>$userInfo['pass']
+           ];
+        die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }else{
             $response=[
               'error'=>40009,
