@@ -145,13 +145,13 @@ class TestController extends BaseController{
                 'error'=>0,
                 'msg'=>'添加成功'
             ];
-           return json_encode($response,JSON_UNESCAPED_UNICODE);
+          die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }else{
             $response=[
                 'error'=>40001,
                 'msg'=>'添加失败'
             ];
-            return json_encode($response,JSON_UNESCAPED_UNICODE);
+            die(json_encode($response,JSON_UNESCAPED_UNICODE));
         }
     }
     //APP登录
