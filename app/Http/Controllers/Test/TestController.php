@@ -134,5 +134,6 @@ class TestController extends BaseController{
     //APP注册
     public function appreg(){
         header('Access-Control-Allow-Origin','*');
+        echo time();
     }
 }
