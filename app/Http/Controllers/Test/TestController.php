@@ -173,7 +173,8 @@ class TestController extends BaseController{
                     'error'=>0,
                     'msg'=>'登录成功',
                     'data'=>[
-                        'token'=>$token
+                        'token'=>$token,
+                        'uid'=>$email['id']
                     ],
                 ];
                 die(json_encode($response,JSON_UNESCAPED_UNICODE));
