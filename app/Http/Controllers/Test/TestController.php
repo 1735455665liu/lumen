@@ -145,7 +145,7 @@ class TestController extends BaseController{
         openssl_private_encrypt($json,$value,$private);
         $bas64=base64_encode($value);
 
-        $url='http://pass.1809a.com/reg';
+        $url='http://passpost.lzy1109.com/reg';
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$bas64);
@@ -171,7 +171,7 @@ class TestController extends BaseController{
         $private=openssl_pkey_get_private('file://'.storage_path('openssl/private.pem'));
         openssl_private_encrypt($json,$value,$private);
         $base=base64_encode($value);
-        $url='http://pass.1809a.com/login';
+        $url='http://passpost.lzy1109.com/login';
         $ch=curl_init();
         curl_setopt($ch,CURLOPT_URL,$url);
         curl_setopt($ch,CURLOPT_POSTFIELDS,$base);
