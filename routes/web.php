@@ -23,4 +23,8 @@ $router->get('/getToken','Test\TestController@getToken');      //token
 $router->get('/ajax','Test\TestController@ajax');      //ajax
 $router->post('/appreg','Test\TestController@appreg');      //ajax
 $router->post('/applogin','Test\TestController@applogin');      //applogin
-$router->post('/apptoken','Test\TestController@apptoken');      //apptoken
+$router->get('/apptoken',[
+    'as'=>'profile',
+    'user'=>'Test\TestController@apptoken',
+    'middleware'=>'checklogin'
+]);//apptoken

@@ -7,6 +7,7 @@ use App\Model\username;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Request;
 class TestController extends BaseController{
     //对称加密
     public function getdncrypt(){
@@ -129,8 +130,7 @@ class TestController extends BaseController{
        echo time();
     }
     //APP注册
-    public function appreg(){
-        header('Access-Control-Allow-Origin:*');
+    public function appreg(Request $request){
         $name=$_POST['name'];
         $pass=$_POST['pass'];
         $email=$_POST['email'];
@@ -139,82 +139,52 @@ class TestController extends BaseController{
             'pass'=>$pass,
             'email'=>$email
         ];
-        $id=username::insertGetId($data);
-        if($id){
-            $response=[
-                'error'=>0,
-                'msg'=>'添加成功'
-            ];
-          die(json_encode($response,JSON_UNESCAPED_UNICODE));
-        }else{
-            $response=[
-                'error'=>40001,
-                'msg'=>'添加失败'
-            ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+            $json=json_encode($data);
+            //非对称加密
+        $private=openssl_pkey_get_private('file://'.storage_path('openssl/private.pem'));
+        openssl_private_encrypt($json,$value,$private);
+        $bas64=base64_encode($value);
+
+        $url='http://pass.1809a.com/reg';
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$bas64);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,['Content-Type:text/plian']);
+        curl_exec($ch);
+        $error=curl_errno($ch);
+        if($error!=0){
+            echo '状态码为'.$error;
         }
+        curl_close($ch);//结束会话
+
     }
     //APP登录
     public function applogin(){
-        header('Access-Control-Allow-Origin:*');
-        $name=$_POST['name'];
         $pass=$_POST['pass'];
         $email=$_POST['email'];
-        $email=username::where(['email'=>$email])->first();
-        if($email){ //用户存在
-            //验证密码
-            if($pass==$email->pass){
-                //把token存入缓存
-                $key='app_token';
-                $token=$this->getToken($email['id']);
-               Redis::set($key,$token);    //存入缓存中
-                Redis::expire($key,604800); //设置过期时间
-                $response=[
-                    'error'=>0,
-                    'msg'=>'登录成功',
-                    'data'=>[
-                        'token'=>$token,
-                        'uid'=>$email['id']
-                    ],
-                ];
-                die(json_encode($response,JSON_UNESCAPED_UNICODE));
-            }else{
-                $response=[
-                    'error'=>40005,
-                    'msg'=>'密码有误，请重新填写'
-                ];
-                die(json_encode($response,JSON_UNESCAPED_UNICODE));
-            }
-        }else{      //用户不存在
-            $response=[
-                'error'=>40003,
-                'msg'=>'用户不存在'
-            ];
-            die(json_encode($response,JSON_UNESCAPED_UNICODE));
+        $data=[
+            'pass'=>$pass,
+            'email'=>$email
+        ];
+        $json=json_encode($data);
+
+        $private=openssl_pkey_get_private('file://'.storage_path('openssl/private.pem'));
+        openssl_private_encrypt($json,$value,$private);
+        $base=base64_encode($value);
+        $url='http://pass.1809a.com/login';
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$base);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,['Content-Type:text/plian']);
+        curl_exec($ch);
+        $error=curl_errno($ch);
+        if($error!=0){
+            echo '状态码为'.$error;
         }
+        curl_close($ch);//结束会话
     }
     //APPtoken
     public function apptoken(){
-        header('Access-Control-Allow-Origin:*');
-        $token=$_POST['token'];
-        $uid=$_POST['uid'];
-        $key='app_token';
-        $redis=Redis::get($key);
-        if($redis==$token){
-            $userInfo=username::where(['id'=>$uid])->first();
-           $response=[
-             'name'=>$userInfo['name'],
-             'email'=>$userInfo['email'],
-             'pass'=>$userInfo['pass']
-           ];
-        die(json_encode($response,JSON_UNESCAPED_UNICODE));
-        }else{
-            $response=[
-              'error'=>40009,
-              'msg'=>'请先登录'
-            ];
-        }
-
     }
 
 }
