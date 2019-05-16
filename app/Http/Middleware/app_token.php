@@ -12,7 +12,7 @@ class app_token
     {
         $token=$request->input('token');
         $uid=$request->input('uid');
-        $key='app_token';
+        $key='laravel_database_app_token';
         $redis_token=Redis::get($key);
         $userInfo=username::where(['id'=>$uid])->first();
         if($userInfo){
