@@ -28,3 +28,11 @@ $router->get('/apptoken',[
     'user'=>'Test\TestController@apptoken',
     'middleware'=>'checklogin'
 ]);//apptoken
+
+$router->post('/cart','Goods\GoodsController@cart');      //购物车接口
+$router->post('/goods','Goods\GoodsController@goods');      //商品列表
+$router->post('/goodslist','Goods\GoodsController@goodslist');      //商品列表
+$router->post('/cart','Goods\GoodsController@cart');      //商品列表
+$router->post('/cartlist','Goods\GoodsController@cartlist');      //商品列表
+$router->post('/order','Goods\GoodsController@order');      //生成订单
+$router->post('/orderlist','Goods\GoodsController@orderlist');      //生成订单
