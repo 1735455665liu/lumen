@@ -36,7 +36,7 @@ $router->post('/cart','Goods\GoodsController@cart');      //商品列表
 $router->post('/cartlist','Goods\GoodsController@cartlist');      //商品列表
 $router->post('/order','Goods\GoodsController@order');      //生成订单
 $router->post('/orderlist','Goods\GoodsController@orderlist');      //生成订单
-$router->get('/pay{order_id}','Pay\AliPayController@pay');      //去支付
 $router->post('/Alireturn','Pay\AliPayController@Alireturn');      //同步通知
 $router->get('/notify','Pay\AliPayController@notify');      //异步通知
 $router->get('/test','Pay\AliPayController@test');      //测试公钥
+$router->get('/pay','Pay\AliPayController@pay');      //去支付

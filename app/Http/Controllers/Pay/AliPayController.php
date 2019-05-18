@@ -30,18 +30,19 @@ class AliPayController extends BaseController
 
     }
     //去支付
-    public function pay($id){
+    public function pay(){
+       $id=$_GET['order_id'];
         //验证订单是否存在
         $orderInfo=order::where(['order_id'=>$id])->first();
 
-//        //判断订单是否已被支付
-//        if($orderInfo['pay_time']>0){
-//            die("订单已支付，请勿重复支付");
-//        }
-//        //判断订单是否已被删除
-//        if($orderInfo['is_delete']==1){
-//            die("订单已被删除，无法支付");
-//        }
+        //判断订单是否已被支付
+        if($orderInfo['pay_time']>0){
+            die("订单已支付，请勿重复支付");
+        }
+        //判断订单是否已被删除
+        if($orderInfo['is_delete']==1){
+            die("订单已被删除，无法支付");
+        }
 
         //业务参数
         $bizcont = [
