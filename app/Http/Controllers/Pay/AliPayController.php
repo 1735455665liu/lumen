@@ -32,8 +32,9 @@ class AliPayController extends BaseController
     //去支付
     public function pay(){
        $id=$_GET['order_id'];
+
         //验证订单是否存在
-        $orderInfo=order::where(['order_id'=>$id])->first();
+        $orderInfo=order::where(['order_id'=>$id])->first()->toArray();
 
         //判断订单是否已被支付
 //        if($orderInfo['pay_time']>0){
@@ -48,9 +49,10 @@ class AliPayController extends BaseController
         $bizcont = [
             'subject'           => 'Lening-Order: ' .$id,
             'out_trade_no'      => $id,
-            'total_amount'      => $orderInfo['order_amount'],
+            'total_amount'      => $orderInfo['order_amout'],
             'product_code'      => 'QUICK_WAP_WAY',
         ];
+
 
         //公共参数
         $data = [
