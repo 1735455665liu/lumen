@@ -33,7 +33,7 @@ class AliPayController extends BaseController
     public function pay(){
        $id=$_GET['order_id'];
         //验证订单是否存在
-        $orderInfo=order::where(['order_id'=>$id])->first();
+        $orderInfo=DB::table('shop_order')->where(['order_id'=>$id])->first();
 
         //判断订单是否已被支付
 //        if($orderInfo['pay_time']>0){
